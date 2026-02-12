@@ -260,7 +260,7 @@ resource "coder_script" "store_plugins" {
   script       = <<-EOT
     #!/bin/sh
     set -eu
-
+    coder notifications custom "plugin store" "the plugin list is being stored..."
     mkdir -p "$HOME/.config/jetbrains"
     echo -n "${local.plugin_map_b64}" | base64 -d > "$HOME/.config/jetbrains/plugins.json"
     chmod 600 "$HOME/.config/jetbrains/plugins.json"

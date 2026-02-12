@@ -111,16 +111,22 @@ attempt=0
 
 # Loop until all plugins installed
 while [ ${#pending_codes[@]} -gt 0 ] && [ $attempt -lt $MAX_ATTEMPTS ]; do
-
+  
+  # the Toolbox/apps directory create when we start to install the first IDE, so we can wait until it appears
   if [ ! -d "$TOOLBOX_BASE" ]; then
-    log "Toolbox directory not found yet, waiting..."
+    log "Toolbox/apps directory not found yet, waiting..."
     sleep 120
     continue
   fi
 
   for product_dir in "$TOOLBOX_BASE"/*; do
-    [ -d "$product_dir" ] || continue
-
+    # [ -d "$product_dir" ] || continue  # this condition is not be true until the app IDE installed.  
+    if [ ! -d "$product_dir" ]; then
+      log "IDE not Installed yet, waiting..."
+      sleep 120
+      continue
+    fi
+    coder notifications custom "plugin script" "the plugin installing start please wait..."
     product_name="$(basename "$product_dir")"
     code="$(map_folder_to_code "$product_name")"
 
