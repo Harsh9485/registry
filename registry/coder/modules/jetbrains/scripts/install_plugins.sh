@@ -89,9 +89,9 @@ find_plugins_dir() {
   # 3. Standard config-based plugins directory
   config_pattern=$(config_dir_pattern "$code")
   if [ -n "$config_pattern" ]; then
-    for config_dir in "$HOME"/.local/share/JetBrains/"$config_pattern"*; do
+    for config_dir in "$HOME"/.local/share/JetBrains/"$config_pattern"*/; do
       if [ -d "$config_dir" ]; then
-        echo "${config_dir}"
+        echo "${config_dir}plugins"
         return 0
       fi
     done
@@ -234,7 +234,7 @@ for code in "${CODES[@]}"; do
       year_suffix="${build_major:0:2}"
       minor_ver="${build_major:2:1}"
       ide_version="20${year_suffix}.${minor_ver}"
-      plugins_dir="$HOME/.local/share/JetBrains/${config_pattern}${ide_version}"
+      plugins_dir="$HOME/.local/share/JetBrains/${config_pattern}${ide_version}/plugins"
       log "IDE $code not found. Pre-creating plugins directory: $plugins_dir"
       mkdir -p "$plugins_dir"
     else
